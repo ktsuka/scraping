@@ -7,6 +7,12 @@ price_array = Array.new
 
 doc = Nokogiri::HTML(open('https://store.ishibashi.co.jp/ec/srDispCategoryTreeLink/doSearchCategory/11430000000/04-05/2/1'))
 
+doc.xpath("//span[@class=\"color\"]").each do |count|
+    puts count.text
+    #puts count.text.to_i.div(40)
+    break
+end
+
 doc.xpath("//p[@class=\"item\"]").each do |item|
     #puts item.text.gsub("\/ ","").gsub(" …","").gsub(" ","") 
     item_array.push(item.text.gsub("\/ ","").gsub(" …","").gsub(" ",""))
@@ -17,6 +23,14 @@ doc.xpath("//p[@class=\"price\"]").each do |price|
     price_array.push(price.text.strip.gsub("販売価格:","").gsub("円\(税込\)","").gsub(",",""))
 end
 
+# 配列要素を昇順に並び替える
 (0...item_array.length).map{|i| [item_array[i], price_array[i]]}
+
+# item_arrayとprice_arrayを結合する(二次元配列になる)
 item_list = item_array.zip(price_array)
+
+# 1レコード出力する
+puts item_list[0][0] + "," + item_list[0][1]
+
+# 全レコード出力する
 puts item_list
