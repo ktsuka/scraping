@@ -29,8 +29,12 @@ end
 # item_arrayとprice_arrayを結合する(二次元配列になる)
 item_list = item_array.zip(price_array)
 
-# 1レコード出力する
-puts item_list[0][0] + "," + item_list[0][1]
+# 全レコード出力する
+i = 0
+while i < item_list.length do
+    puts i.to_s + "," + item_list[i][0] + "," + item_list[i][1]
+    i += 1
+end
 
 # 全レコード出力する
-puts item_list
+#puts item_list
