@@ -58,7 +58,7 @@ while item_num < total_num
     item_num += 40
     progress_bar(item_num,total_num)
     sleep(1)
-    break
+    #break
 
 end
 
@@ -77,27 +77,8 @@ datetime = Time.new
 filename = "\/Users\/tsuka\/ruby\/scraping\/ishibashi_digital_" + datetime.strftime("%Y%m%d%H%M") + ".txt"
 File.open(filename,"w") do |f|
     while i < item_list.length do
-        #puts item_list[i][0]
-        info =  item_list[i][0].split(" ")
-        #if item_list[i][0] =~ /【(\W+)】*/ || item_list[i][0] =~ /【(\W+\d+)】*/ then
-        #if item_list[i][0] =~ /【(\W+)】*/ then
-        #    puts item_list[i][0]
-        #    puts $1
-        #end
-        itype = ""
-        #if item_list[i][0] =~ /[特価]/ then
-        #   itype = "special"
-        #end
-        #if item_list[i][0] =~ /[中古]/ then
-        #   itype = "old"
-        #end
-        if info[0] == "Dave" then
-            puts datetime.strftime("%Y%m%d") + sprintf("%05d",i + 1).to_s + "," + info[0..2].join(" ") + "," + info[3..-1].join(" ") + "," + item_list[i][1] \
-            + "," + "" + "," + itype
-        else
-            puts datetime.strftime("%Y%m%d") + sprintf("%05d",i + 1).to_s + "," + info[0] + "," + info[1..-1].join(" ") + "," + item_list[i][1] \
-            + "," + "" + "," + itype
-        end
+        f.puts datetime.strftime("%Y%m%d") + sprintf("%05d",i + 1).to_s + "," + "" + "," + item_list[i][0] + ","  + item_list[i][1] \
+        + "," + "" + "," + ""
         i += 1
     end
 end
