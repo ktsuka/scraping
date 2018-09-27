@@ -35,7 +35,7 @@ end
 
 #puts total_num
 
-# 
+# do scraping 
 while item_num < total_num
 
     # set url
@@ -58,6 +58,7 @@ while item_num < total_num
     item_num += 40
     progress_bar(item_num,total_num)
     sleep(1)
+    #break if item_num == 120
     #break
 
 end
@@ -65,22 +66,72 @@ end
 (0...item_array.length).map{|i| [item_array[i], price_array[i]]}
 item_list = item_array.zip(price_array)
 
-#i = 0
-#while i < item_list.length do
-#    puts (i + 1).to_s + "," + item_list[i][0] + "," + item_list[i][1]
-#    i += 1
-#end
-
 # put results into file
+makers = ["YAMAHA","ROLAND","KORG","DAVE SMITH INSTRUMENTS","DAVE SMITH","BEHRINGER","WALDORF","CLAVIA","ARTURIA",
+         "STUDIOLOGIC","ELEKTRON","ZOOM","MAKE NOISE","TEENAGE ENGINEERING","MUTABLE INSTRUMENTS","TIPTOP AUDIO", \
+         "GAMECHANGER","IK MULTIMEDIA","DOEPFER","MOOG","VOX","ROSSUM ELECTRO-MUSIC","JOMOX","MELLOTRON","AKAI", \
+         "DATO","KIKUTANI","KYORITSU","NOVATION","HAMMOND","DIGITECH","CASIO","BOSS","STRYMON","KOMA","ORB", \
+         "CRITTER\&GUITARI","DECKSAVER","ULTIMATE","UDG","KAWAI","SEQUENZ","NORD\(CLAVIA\)","SHERMAN","AUDIO-TECHNICA", \
+         "CRAVIA","YAMANO","ACCESS","PIONEER","REON","QUIK-LOK","Radel","ESI","KRK","SELVA","TASCAM","HERCULES","PROVIDENCE", \
+         "HERCULES","FOCAL","MACKIE"]
+jmakers = ["ヤマハ","ベリンガー","コルグ","ウォルドルフ","ウｫルドルフ","ローランド","クラヴィア","アートリア", \
+          "スタジオロジック","エレクトロン","ズーム","ドイプファー","ジョモックス","メロトロン","アカイ","ダト" \
+          "ノベーション","ハモンド","ストライモン","オーブ","デッキセーバー","カシオ","アダム","ボス","ユーディージー", \
+          "カワイ","シャーマン","アクセス","レオン","ラデル","イーエスアイ","セルバ","タスカム","ハーキュレス","フォーカル", \
+          "マッキー"]
+
+# declare variables
+mname = ""
+goods = ""
+itype = ""
 i = 0
+
 datetime = Time.new
 filename = "\/Users\/tsuka\/ruby\/scraping\/ishibashi_digital_" + datetime.strftime("%Y%m%d%H%M") + ".txt"
 File.open(filename,"w") do |f|
     while i < item_list.length do
-        f.puts datetime.strftime("%Y%m%d") + sprintf("%05d",i + 1).to_s + "," + "" + "," + item_list[i][0] + ","  + item_list[i][1] \
-        + "," + "" + "," + ""
+
+        # upcase to check maker name
+        goods = item_list[i][0].upcase
+
+        # check maker name and delete maker name
+        makers.map do |maker|
+
+          if goods.include?(maker)
+            mname = maker
+            goods.gsub!(maker,"")
+            break
+          end
+
+        end
+    
+        # delete japanese maker name
+        jmakers.map do |jmaker|
+
+          if goods.include?(jmaker)
+            goods.gsub!(jmaker,"")
+            break
+          end
+
+        end
+
+        # check second hands
+        if goods.include?("\【中古\】") then
+
+          goods.gsub!("\【中古\】","")
+          itype = "old"
+
+        else itype = "" end
+
+        # output file
+        f.puts datetime.strftime("%Y%m%d") + sprintf("%05d",i + 1).to_s + "," + mname + "," + goods.strip + ","  + item_list[i][1] + "," + "" + "," + itype
+
+        # set variables
         i += 1
+        mname = ""
+
     end
+
 end
 
 puts "SCRAPING DONE!"
