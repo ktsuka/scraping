@@ -70,15 +70,20 @@ item_list = item_array.zip(price_array)
 makers = ["YAMAHA","ROLAND","KORG","DAVE SMITH INSTRUMENTS","DAVE SMITH","BEHRINGER","WALDORF","CLAVIA","ARTURIA",
          "STUDIOLOGIC","ELEKTRON","ZOOM","MAKE NOISE","TEENAGE ENGINEERING","MUTABLE INSTRUMENTS","TIPTOP AUDIO", \
          "GAMECHANGER","IK MULTIMEDIA","DOEPFER","MOOG","VOX","ROSSUM ELECTRO-MUSIC","JOMOX","MELLOTRON","AKAI", \
-         "DATO","KIKUTANI","KYORITSU","NOVATION","HAMMOND","DIGITECH","CASIO","BOSS","STRYMON","KOMA","ORB", \
+         "DATO","KIKUTANI","KIKUTANI MUSIC","KYORITSU","NOVATION","HAMMOND","DIGITECH","CASIO","BOSS","STRYMON","KOMA","ORB", \
          "CRITTER\&GUITARI","DECKSAVER","ULTIMATE","UDG","KAWAI","SEQUENZ","NORD\(CLAVIA\)","SHERMAN","AUDIO-TECHNICA", \
          "CRAVIA","YAMANO","ACCESS","PIONEER","REON","QUIK-LOK","Radel","ESI","KRK","SELVA","TASCAM","HERCULES","PROVIDENCE", \
-         "HERCULES","FOCAL","MACKIE"]
+         "HERCULES","FOCAL","MACKIE","ADAM AUDIO","RADIKAL TECHNOLOGIES","ELECTRO HARMONIX","RADEL","PLOYTEC","CERWIN VEGA", \
+         "CNB","ACIDLAB","KENTON","E-MU","SISMO","OBERHEIM","ACE TONE","RHODES","STUDIO ELECTRONICS","SKYCHORD ELECTRONICS", \
+         "HOHNER","BASTL INSTRUMENTS","SEQUENTIAL CIRCUITS","QUASI MIDI","BIAS","EMIX TRIMTONE","TEISCO","CRUMAR","FIRSTMAN", \
+         "FOSTEX","PHIL JONES BASS","EVE AUDIO"]
+
 jmakers = ["ヤマハ","ベリンガー","コルグ","ウォルドルフ","ウｫルドルフ","ローランド","クラヴィア","アートリア", \
-          "スタジオロジック","エレクトロン","ズーム","ドイプファー","ジョモックス","メロトロン","アカイ","ダト" \
+          "スタジオロジック","エレクトロン","ズーム","ドイプファー","ジョモックス","メロトロン","アカイ","ダト", \
           "ノベーション","ハモンド","ストライモン","オーブ","デッキセーバー","カシオ","アダム","ボス","ユーディージー", \
           "カワイ","シャーマン","アクセス","レオン","ラデル","イーエスアイ","セルバ","タスカム","ハーキュレス","フォーカル", \
-          "マッキー"]
+          "マッキー","オーバーハイム","エーストーン","ローズ","ホーナー","シーケンシャルサーキット","イーミュー","バイアス", \
+          "テスコ","ファーストマン","フォステクス"]
 
 # declare variables
 mname = ""
@@ -99,7 +104,8 @@ File.open(filename,"w") do |f|
 
           if goods.include?(maker)
             mname = maker
-            goods.gsub!(maker,"")
+            goods.sub!(maker,"").gsub!("\/"," ")
+            goods.gsub!("\(\)","")
             break
           end
 
@@ -124,7 +130,8 @@ File.open(filename,"w") do |f|
         else itype = "" end
 
         # output file
-        f.puts datetime.strftime("%Y%m%d") + sprintf("%05d",i + 1).to_s + "," + mname + "," + goods.strip + ","  + item_list[i][1] + "," + "" + "," + itype
+        f.puts datetime.strftime("%Y%m%d") + sprintf("%05d",i + 1).to_s + "," + "IS" + "," + goods.strip + ","  + item_list[i][1] + "," \
+               + mname + "," + "" + "," + itype + "," + ""
 
         # set variables
         i += 1
